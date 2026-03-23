@@ -6,6 +6,13 @@ import cors from "cors";
 import mongoose from "mongoose";
 import { connectToSocket } from "./controller/socketManager.js";
 import userRoute from "./routes/users.router.js";
+import path from "path";
+
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 const app = express();
 const server = createServer(app);
