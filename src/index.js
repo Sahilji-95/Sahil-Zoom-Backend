@@ -7,6 +7,10 @@ import mongoose from "mongoose";
 import { connectToSocket } from "./controller/socketManager.js";
 import userRoute from "./routes/users.router.js";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const server = createServer(app);
@@ -21,7 +25,7 @@ app.use("/api/v1/user", userRoute);
 
 app.use(express.static(path.join(__dirname, "build")));
 
-app.get("*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
