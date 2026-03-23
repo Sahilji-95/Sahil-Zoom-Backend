@@ -8,12 +8,6 @@ import { connectToSocket } from "./controller/socketManager.js";
 import userRoute from "./routes/users.router.js";
 import path from "path";
 
-app.use(express.static(path.join(__dirname, "build")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
 const app = express();
 const server = createServer(app);
 const io = connectToSocket(server);
@@ -24,6 +18,12 @@ app.use(cors());
 app.use(express.json({ limit: "40kb" }));
 app.use(express.urlencoded({ limit: "40kb", extended: true }));
 app.use("/api/v1/user", userRoute);
+
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 const start = async () => {
   try {
